@@ -2,96 +2,128 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lego Collection</title>
-  <link rel="stylesheet" href="/css/main.css" />
-
-  <style>
-    .card {
-        height: 100%;
-        margin: 10px;
-        background-color: rgba(0, 0, 0, 0.1); ;
-    }
-    
-    .card img {
-        height: 200px;
-        object-fit: cover; 
-    }
-
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore the LEGO Universe</title>
+    <link rel="stylesheet" href="/css/main.css" />
 </head>
 
 <body tabindex="-1">
-    <%- include('partials/navbar', {page:'/home'}) %>
-
-  <div class="container mx-auto">
-      <div class="hero bg-base-200 rounded-lg p-6">
-          <div class="hero-content text-center ">
-              <div class="max-w-lg">
-                  <h1 class="text-5xl font-bold">Embark on an Epic Journey through our Lego Collection</h1>
-      
-                  <p class="py-6">Set sail on a voyage of imagination and discovery amidst our extensive LEGO collection, where every brick tells a story and every creation sparks wonder.</p>
-              
-                  <a href="/lego/sets" class="btn btn-primary">Explore Sets</a>
-              </div>
-          </div>
-      </div>
-  </div>
-
-  <br>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div>
-
-          <div class="card bg-base-100 shadow-xl">
-              <figure>
-              <img class="w-full" src="https://cdn.rebrickable.com/media/sets/1000629598-1.jpg" alt="Lego set - 70437-1">
-              </figure>
-              <div class="card-body">
-              <h2 class="card-title">Harry Potter Collection - PS4 - PC</h2>
-              <p>Embark on a journey through us with this Harry Potter LEGO set, released in london by Kabir in 2016. Re-released in 2016 as an fun learning game for children.</p>
-                  <div class="card-actions justify-end">
-                          <a href="/lego/sets/1000629598-1" class="btn btn-primary">View</a>
-                  </div>
-              </div>
-
-          </div>
-
-      </div>
-
-      <div>
-        <div class="card bg-base-100 shadow-xl">
-          <figure>
-          <img class="w-full" src="https://cdn.rebrickable.com/media/sets/1000643461-1.jpg" alt="Lego Set 70436-1">
-          </figure>
-          <div class="card-body">
-            <h2 class="card-title">Marvel Super Heroes 2 - Xbox One</h2>
-            <p>Set sail for adventure with this captivating LEGO set, released in America (USA/CAN) by Khan in 2017. </p>
-            <div class="card-actions justify-end">
-                <a href="/lego/sets/1000643461-1" class="btn btn-primary">View</a>
-            </div>
-          </div>
+    <!-- Include navbar partial -->
+    <% include('partials/navbar', { page: '/home' }) %>
+    <div class="navbar bg-base-100">
+        <div class="flex-1">
+            <a class="btn btn-ghost normal-case text-xl" href="/"></a>
         </div>
-      </div>
 
-      <div>
-      <div class="card bg-base-100 shadow-xl">
-          <figure>
-          <img class="w-full " src="https://cdn.rebrickable.com/media/sets/10007-1.jpg" alt="Lego Set - 70425-1">
-          </figure>
-          <div class="card-body">
-          <h2 class="card-title">2 x 4 Sand Red Ridge Roof Tiles Steep Slope</h2>
-          <p>Rev up your imagination with the LEGO®. This interactive playset , offering a adrenaline rush  experience like no other.</p>
-              <div class="card-actions justify-end">
-                  <a href="/lego/sets/10007-1.jpg" class="btn btn-primary">View</a>
-              </div>
-          </div>
-      </div>
+        <div class="dropdown">
+            <label tabindex="0" class="btn btn-ghost sm:hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </label>
+            <ul tabindex="0" class="menu menu-sm dropdown-content right-0 mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                <li><a href="/about">About</a></li>
+                <li>
+                    <details>
+                        <summary>
+                            Categories
+                        </summary>
+                        <ul class="p-2 bg-base-100">
+                            <li><a href="/lego/sets?theme=technic">Technic</a></li>
+                            <li><a href="/lego/sets?theme=classic town">Classic Town</a></li>
+                            <li><a href="/lego/sets?theme=supplemental">Supplemental</a></li>
+                        </ul>
+                    </details>
+                </li>
+            </ul>
+        </div>
 
-      </div>
-  </div>
-  
+        <div class="navbar-center hidden sm:flex">
+            <ul class="menu menu-horizontal px-1">
+                <li><a href="/about">About</a></li>
+                <li><a href="/lego/addSet">Add Set</a></li>
+
+                <li>
+                    <details>
+                        <summary>Categories</summary>
+                        <ul class="p-2 bg-base-100 right-0">
+                            <li><a href="/lego/sets?theme=technic">Technic</a></li>
+                            <li><a href="/lego/sets?theme=classic town">Classic Town</a></li>
+                            <li><a href="/lego/sets?theme=supplemental">Supplemental</a></li>
+                        </ul>
+                    </details>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="container mx-auto">
+        <div class="hero bg-base-200 rounded-lg p-6">
+            <div class="hero-content text-center ">
+                <div class="max-w-md">
+                    <h1 class="text-5xl font-bold">Discover the LEGO Universe</h1>
+
+                    <p class="py-6" style="color: rgb(24, 44, 62);">From mystical realms to cosmic adventures: Let LEGO ignite your imaginative spark</p>
+
+                    <a href="/lego/sets" class="btn btn-primary">Embark on the Journey</a>
+                </div>
+            </div>
+        </div>
+
+        <br />
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div>
+                <div class="card bg-base-100 shadow-xl">
+                    <figure>
+                        <img class="w-full" src="https://cdn.rebrickable.com/media/sets/1000577871-1.jpg"
+                            alt="Lego set" />
+                    </figure>
+                    <div class="card-body">
+                        <h2 class="card-title">Gears</h2>
+                        <p>This set was launched in London (USA/CAN) by Kabir in 2016.</p>
+                        <div class="card-actions justify-end">
+                            <a href="/lego/sets/1000577871-1" class="btn btn-primary">Explore</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="card bg-base-100 shadow-xl">
+                    <figure>
+                        <img class="w-full" src="https://cdn.rebrickable.com/media/sets/10015-1.jpg"
+                            alt="Lego Set" />
+                    </figure>
+                    <div class="card-body">
+                        <h2 class="card-title">Nursery Furniture</h2>
+                        <p>Classic Duplo set - design a nursery in 2001.</p>
+                        <div class="card-actions justify-end">
+                            <a href="/lego/sets/10015-1" class="btn btn-primary">Explore</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="card bg-base-100 shadow-xl">
+                    <figure>
+                        <img class="w-full" src="https://cdn.rebrickable.com/media/sets/10006-1.jpg"
+                            alt="Lego Set" />
+                    </figure>
+                    <div class="card-body">
+                        <h2 class="card-title">The Race to Build It Board Game</h2>
+                        <p>Technic board game - released in 2004</p>
+                        <div class="card-actions justify-end">
+                            <a href="/lego/sets/10006-1" class="btn btn-primary">Explore</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 </body>
 
 </html>
