@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+  <link rel="stylesheet" href="/css/main.css">
+<style>
+    /* Resetting default margin and padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #ffbf00; /* Vibrant yellow background */
+}
+
+/* Container styles */
+.container {
+  padding: 20px;
+}
+
+/* Navbar styles */
+.navbar {
+  background-color: #ff6b6b; /* Vibrant red background */
+  color: #ffffff; /* White color */
+  padding: 10px 20px;
+}
+
+.navbar a {
+  color: #ffffff; /* White color */
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+/* Card styles */
+.card {
+  background-color: #43aa8b; /* Vibrant green background */
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); /* Increased shadow effect */
+}
+
+/* Form styles */
+.form-control {
+  margin-bottom: 20px;
+}
+
+.label-text {
+  font-weight: bold;
+}
+
+.input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #eeeeee; /* Light gray border */
+  border-radius: 5px;
+  transition: border-color 0.3s ease;
+}
+
+.input:focus {
+  border-color: #ff6b6b; /* Vibrant red border */
+}
+
+.btn {
+  display: inline-block;
+  background-color: #ffbf00; /* Vibrant yellow background */
+  color: #ffffff; /* White color */
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #ff8c00; /* Vibrant orange background on hover */
+}
+
+/* Alert styles */
+.alert {
+  background-color: #ff6f61; /* Vibrant red background */
+  color: #ffffff; /* White color */
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.success-message {
+  background-color: #54a0ff; /* Vibrant blue background */
+  color: #ffffff; /* White color */
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+  </style>
+</head>
+<body>
+  <% include('partials/navbar', { page: 'register' }) %>
+  
+  <div class="container mx-auto">
+    <div class="max-w-md mx-auto mt-6">
+      <% if(typeof successMessage !== 'undefined') { %>
+        <div class="success-message">
+          <span><%= successMessage %></span>
+        </div>
+        <a href="/login" class="btn">Proceed to Log in</a>
+      <% } else { %>
+        <form action="/register" method="POST" class="card shadow-md p-6">
+          <h2 class="text-2xl font-semibold mb-4">Register</h2>
+          <% if(typeof errorMessage !== 'undefined') { %>
+            <div class="alert">
+              <span><%= errorMessage %></span>
+            </div>
+          <% } %>
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">User Name</span>
+            </label>
+            <input type="text" name="userName" placeholder="User Name" required class="input">
+          </div>
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Password</span>
+            </label>
+            <input type="password" name="password" placeholder="Password" required class="input">
+          </div>
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Confirm Password</span>
+            </label>
+            <input type="password" name="password2" placeholder="Confirm Password" required class="input">
+          </div>
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Email Address</span>
+            </label>
+            <input type="email" name="email" placeholder="Email Address" required class="input">
+          </div>
+          <button type="submit" class="btn">Register</button>
+        </form>
+      <% } %>
+    </div>
+  </div>
+</body>
+</html>

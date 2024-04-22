@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User History</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <style>
+    /* Styles for the container */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #ffbf00; /* Vibrant yellow background */
+  padding: 20px;
+}
+
+/* Styles for the hero section */
+.hero {
+  background-color: #ff6b6b; /* Vibrant red background */
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  padding: 50px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* Styles for the hero title */
+.hero h1 {
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #ffffff; /* White color */
+  margin-bottom: 30px;
+}
+
+/* Styles for user info */
+.user-info {
+  font-size: 1.2rem;
+  color: #ffffff; /* White color */
+  margin-bottom: 30px;
+}
+
+/* Styles for table */
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+/* Styles for table header */
+.table th {
+  background-color: #43aa8b; /* Vibrant green color */
+  color: #ffffff; /* White color */
+  padding: 20px;
+  text-align: center;
+}
+
+/* Styles for table cells */
+.table td {
+  padding: 20px;
+  border-bottom: 2px solid #eeeeee; /* Light gray border */
+}
+
+/* Styles for table striped rows */
+.table tbody tr:nth-child(even) {
+  background-color: #54a0ff; /* Vibrant blue background for even rows */
+}
+
+/* Styles for no login history message */
+.no-history {
+  font-size: 1.4rem;
+  color: #ffffff; /* White color */
+  font-style: italic;
+}
+
+  </style>
+</head>
+<body>
+  <% include('partials/navbar', { page: 'userHistory' }) %>
+  
+  <div class="container mx-auto">
+    <div class="hero bg-base-200 rounded-lg">
+      <div class="hero-content">
+        <div class="max-w-md">
+          <h1>User History</h1>
+          <% if(session.user) { %>
+            <div class="user-info">
+              <p>Welcome, <%= session.user.userName %></p>
+              <p>Email: <%= session.user.email %></p>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <% if(session.user && session.user.loginHistory.length > 0) { %>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Login Date/Time</th>
+            <th>Client Information</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% session.user.loginHistory.forEach(entry => { %>
+            <tr>
+              <td><%= entry.dateTime %></td>
+              <td><%= entry.userAgent %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <p class="no-history">No login history available.</p>
+    <% } %>
+  </div>
+</body>
+</html>

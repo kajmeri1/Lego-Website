@@ -4,7 +4,7 @@
 
 /********************************************************************************
 
-* WEB322 – Assignment 04
+* WEB322 – Assignment 06
 
 *
 
@@ -18,7 +18,7 @@
 
 *
 
-* Name: Kabir Ajmeri Student ID:115911224 Date:27/03/2024
+* Name: Kabir Ajmeri Student ID:115911224 Date:21/04/2024
 
 *
 
@@ -31,13 +31,26 @@
 const express = require('express');
 const path = require('path');
 const legoData = require('./modules/legoSets');
-
+const authData = require('./modules/auth-service');
+const clientSessions = require('client-sessions');
 const app = express();
-const HTTP_PORT = process.env.PORT || 3000;
+const HTTP_PORT = process.env.PORT || 8080;
+
 
 // Middleware
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true })); // Middleware for parsing URL-encoded form data
+app.use(clientSessions({
+  cookieName: 'session',
+  secret: 'random_secret_string', // Change this to a secure random string
+  duration: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
+  activeDuration: 1000 * 60 * 5 // 5 minutes in milliseconds
+}));
+app.use((req, res, next) => {
+  res.locals.session = req.session;
+  next();
+});
+
 app.set('view engine', 'ejs');
 
 // Function to fetch random quote
@@ -132,7 +145,17 @@ app.get('/lego/editSet/:num', async (req, res) => {
   }
 });
 
-// server.js
+// POST route for processing the form data and updating a set
+app.post('/lego/editSet/:num', async (req, res) => {
+  try {
+    const setNum = req.params.num;
+    await legoData.updateSet(setNum, req.body);
+    res.redirect(`/lego/sets/${setNum}`);
+  } catch (error) {
+    console.error('Error updating set:', error);
+    res.render('500', { message: `An error occurred while updating the set: ${error}` });
+  }
+});
 
 // Route to delete a set
 app.get('/lego/deleteSet/:num', async (req, res) => {
@@ -146,28 +169,76 @@ app.get('/lego/deleteSet/:num', async (req, res) => {
   }
 });
 
-
-
-// POST route for processing the form data and updating a set
-app.post('/lego/editSet/:num', async (req, res) => {
-  try {
-    const setNum = req.params.num;
-    await legoData.updateSet(setNum, req.body);
-    res.redirect(`/lego/sets/${setNum}`);
-  } catch (error) {
-    console.error('Error updating set:', error);
-    res.render('500', { message: `An error occurred while updating the set: ${error}` });
-  }
-});
-
 // Custom error handling middleware for other errors
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).render('500', { message: 'Internal Server Error' });
 });
 
-// Initialize database and start server
+// Route to render the login view
+app.get('/login', (req, res) => {
+  res.render('login', { errorMessage: null, userName: null });
+});
+
+
+// Route to render the register view
+app.get('/register', (req, res) => {
+  res.render('register', { errorMessage: null, userName: null });
+});
+
+// POST route to handle user registration
+app.post('/register', async (req, res) => {
+  try {
+    const userData = req.body;
+    await authData.registerUser(userData);
+    res.render('register', { successMessage: "User created" });
+  } catch (error) {
+    res.render('register', { errorMessage: error, userName: req.body.userName });
+  }
+});
+// Route to handle user login
+app.post('/login', async (req, res) => {
+  try {
+    req.body.userAgent = req.get('User-Agent');
+    const user = await authData.checkUser(req.body);
+    req.session.user = {
+      userName: user.userName,
+      email: user.email,
+      loginHistory: user.loginHistory
+    };
+    res.redirect('/lego/sets');
+  } catch (error) {
+    res.render('login', { errorMessage: error, userName: req.body.userName });
+  }
+});
+
+// Route to handle user logout
+app.get('/logout', (req, res) => {
+  req.session.reset();
+  res.redirect('/');
+});
+
+// Route to render the userHistory view
+app.get('/userHistory', ensureLogin, (req, res) => {
+  res.render('userHistory', { loginHistory: req.session.user.loginHistory });
+});
+
+
+// Custom middleware to ensure user is logged in
+function ensureLogin(req, res, next) {
+  if (req.session && req.session.user) {
+    // User is logged in
+    next();
+  } else {
+    // User is not logged in, redirect to login route
+    res.redirect('/login');
+  }
+}
+
+
+// Initialize database and start servers
 legoData.initialize()
+  .then(authData.initialize)
   .then(() => {
     app.listen(HTTP_PORT, () => {
       console.log(`Server listening on: http://localhost:${HTTP_PORT}`);
@@ -177,4 +248,7 @@ legoData.initialize()
     console.error('Error initializing database:', error);
   });
 
+  
+
 module.exports = app;
+
